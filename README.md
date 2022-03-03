@@ -1,5 +1,5 @@
 # Bee-Up via Docker
-Bee-Up is a fucking mess to install on UNIX based systems.
+Bee-Up installation is a challenge. Why not simplify it?
 
 ## Usage
 Follow the installation guide below. Whenever you need to use Bee-Up simply open your browser and visit
