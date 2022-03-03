@@ -10,7 +10,7 @@ Follow the installation guide below. Whenever you need to use Bee-Up simply open
 1) Download the latest macOS release of Bee-Up [here](https://bee-up.omilab.org/activities/bee-up/#download)
 2) Unpack the contents of `<downloaded-zip-file>/bee-up-master-TOOL/TOOL` to `home/app/beeup` within the cloned 
    repository root
-3) Open a terminal and run `bash install.sh` in the repository root
+3) Open a terminal and run `bash install.sh` in the repository root (or `bash install_m1.sh` for M1 Macs)
 4) Follow the instructions in the terminal
 
 ## Uninstallation
