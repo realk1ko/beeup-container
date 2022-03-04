@@ -15,6 +15,7 @@ then
 fi
 
 if [ ! -f "${HOME}/initialized_app" ]
+then
   # Finish installation of Bee-Up
   cat <<EOF > "${HOME}/odbc.ini"
 [beeup16_64]
