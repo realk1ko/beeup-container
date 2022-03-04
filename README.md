@@ -14,7 +14,7 @@ Follow the installation guide below. Whenever you need to use Bee-Up simply open
 4) Follow the instructions in the terminal
 
 ## Uninstallation
-1) Open a terminal and run `bash uninstall.sh` in the repository root
+1) Open a terminal and run `bash uninstall.sh` in the repository root (or `bash uninstall_m1.sh` for M1 Macs)
 
 ## Notes
 This was last tested with the Bee-Up 1.6 release for macOS (`sha1sum: 7e323785a46c0a438144abf1b19cb19d43d64fea`).

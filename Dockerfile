@@ -1,34 +1,55 @@
 FROM ubuntu:focal
 
-# Copy everything into the container
+# Copy files to container
 COPY . .
 
 # Some basic environment variables
 ENV HOME=/home/app \
     PUID=1000 \
     PGID=1000 \
-    LC_ALL=en_US \
+    HTTP_PORT=8080 \
     DISPLAY=:0.0 \
     DISPLAY_WIDTH=1920 \
-    DISPLAY_HEIGHT=1080
+    DISPLAY_HEIGHT=1080 \
+    VNC_PASSWORD=password
 
 # Installing base packages
-RUN apt-get update && \
+RUN set -xe && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         bash \
         novnc \
         x11vnc \
         xvfb \
         fluxbox \
-        supervisor \
+        supervisor
+
+# User setup
+RUN set -xe && \
+    groupadd --gid ${PGID} app && \
+    useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid ${PUID} --gid ${PGID} app
+
+WORKDIR ${HOME}
+
+EXPOSE ${HTTP_PORT}
+
+CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
+
+# Installing Wine
+ENV LC_ALL=en_US
+
+# Installing additional packages for additional repos
+RUN set -xe && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         wget \
         gnupg \
         lsb-release \
         locales && \
     locale-gen en_US
 
-# Installing Wine
-RUN wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
+RUN set -xe && \
+    wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
     echo "deb https://dl.winehq.org/wine-builds/ubuntu/ $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
     dpkg --add-architecture i386 && \
     apt-get update && \
@@ -38,16 +59,15 @@ RUN wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WAR
         wine-stable-amd64=6.0.3~focal-1 \
         wine-stable-i386=6.0.3~focal-1
 
-# Installing winetricks
-RUN wget -nv -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
-    chmod +x /usr/bin/winetricks
-
 # Installing MSSQL
-RUN wget -nv -O- https://packages.microsoft.com/keys/microsoft.asc | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
+ENV ACCEPT_EULA=Y
+
+RUN set -xe && \
+    wget -nv -O- https://packages.microsoft.com/keys/microsoft.asc | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
     echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/mssql-server-2019 $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
     echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/prod $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=Y apt-get install -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
             mssql-server \
             mssql-tools \
             unixodbc \
@@ -55,37 +75,30 @@ RUN wget -nv -O- https://packages.microsoft.com/keys/microsoft.asc | APT_KEY_DON
             msodbcsql18
 
 # Removing apt cache
-RUN rm -rf /var/lib/apt/lists/*
-
-# User setup
-RUN groupadd --gid ${PGID} app && \
-    useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid ${PUID} --gid ${PGID} app && \
-    chown -R ${PUID}.${PGID} "${HOME}"
-
-WORKDIR ${HOME}
-
-VOLUME ${HOME}/data
-
-EXPOSE 8080
-
-CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
+RUN set -xe && \
+    rm -rf /var/lib/apt/lists/*
 
 # Installing Bee-Up
 ENV WINEARCH=win64 \
     WINEPREFIX="${HOME}/.wine_adoxx" \
     WINEDEBUG=-all \
     TOOLFOLDER=BEEUP16_ADOxx_SA \
+    DATABASE_HOST=127.0.0.1 \
     DATABASE=beeup16_64 \
-    LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ
+    SA_PASSWORD=12+*ADOxx*+34 \
+    LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
+    LC_ALL=en_US
 
-USER app
-
-RUN mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
+RUN set -xe && \
+    locale-gen en_US && \
+    mkdir -p "${HOME}/data" && \
+    mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "beeup/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf beeup/support64/odbctemplate.ini "${HOME}/" && \
     cp -rf beeup/support64/create*.sql "${HOME}/" && \
     cp -rf beeup/*.adl "${HOME}/" && \
     rm -rf beeup/ && \
-    chmod +x "${HOME}/start.sh"
+    chmod +x "${HOME}/start_app.sh" && \
+    chmod +x "${HOME}/start_mssql.sh" && \
+    chown -R ${PUID}.${PGID} "${HOME}"
 
-USER root
+VOLUME ${HOME}/data
