@@ -94,7 +94,7 @@ RUN set -xe && \
     mkdir -p "${HOME}/data" && \
     mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "beeup/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf beeup/support64/create*.sql "${HOME}/" && \
+    cp -rf beeup/support64/*.sql "${HOME}/" && \
     cp -rf beeup/*.adl "${HOME}/" && \
     rm -rf beeup/ && \
     chmod +x "${HOME}/start_app.sh" && \
