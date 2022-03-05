@@ -100,5 +100,6 @@ RUN set -xe && \
     chmod +x "${HOME}/start_app.sh" && \
     chmod +x "${HOME}/start_mssql.sh" && \
     chown -R ${PUID}.${PGID} "${HOME}"
+    apt autoremove
 
 VOLUME ${HOME}/data
