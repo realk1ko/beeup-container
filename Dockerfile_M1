@@ -72,12 +72,12 @@ RUN set -xe && \
             mssql-tools \
             unixodbc \
             libodbc1 \
-            msodbcsql18
+            msodbcsql18 && \
+            apt-get autoremove
 
 # Removing apt cache
 RUN set -xe && \
     rm -rf /var/lib/apt/lists/*
-    apt-get autoremove
 
 # Installing Bee-Up
 ENV WINEARCH=win64 \
