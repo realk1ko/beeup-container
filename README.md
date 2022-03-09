@@ -3,11 +3,18 @@
 ---
 
 # Bee-Up via Docker
-Bee-Up installation is a challenge. Why not simplify it?
+> Bee-Up is an ADOxx-based hybrid modelling tool, encompassing five different modelling languages:
+> * BPMN - Business Process Model and Notation
+> * EPC - Event-driven Process Chains
+> * ER - Entity Relationship Diagrams
+> * UML - Unified Modeling Language
+> * Petri Nets
 
-## Usage
-Follow the installation guide below. Whenever you need to use Bee-Up simply open your browser and visit
-`https://localhost:8080/vnc.html`.
+_&#8213; https://bee-up.omilab.org/activities/bee-up/_
+
+## Intro
+This repository serves as an alternative installation approach for Bee-Up. Whenever you need to use Bee-Up you can 
+simply open your browser and visit `https://localhost:8080/vnc.html`.
 
 ## Installation
 1) Clone this repository
