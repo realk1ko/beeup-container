@@ -31,5 +31,5 @@ on Fedora 34 64-bit and MacOS 12.2.1 M1.
 
 ## Contributors
 <a href="https://github.com/realk1ko/beeup-docker/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=realk1ko/beeup-docker" />
+  <img src="https://contrib.rocks/image?repo=realk1ko/beeup-docker" alt="https://github.com/realk1ko/beeup-docker/graphs/contributors"/>
 </a>
