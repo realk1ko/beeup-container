@@ -56,10 +56,10 @@ RUN set -xe && \
     dpkg --add-architecture i386 && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        winehq-stable=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
-        wine-stable=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
-        wine-stable-amd64=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
-        wine-stable-i386=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1
+        winehq-stable="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
+        wine-stable="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
+        wine-stable-amd64="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
+        wine-stable-i386="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1"
 
 # Installing MSSQL
 ENV ACCEPT_EULA=Y
