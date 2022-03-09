@@ -1,8 +1,11 @@
 ![Screenshot](Screenshot.jpg)
 
+# Bee-Up via Docker
+
 ---
 
-# Bee-Up via Docker
+[![license](https://img.shields.io/github/license/realk1ko/beeup-docker.svg)](https://github.com/realk1ko/beeup-docker/blob/master/LICENSE)
+
 > Bee-Up is an ADOxx-based hybrid modelling tool, encompassing five different modelling languages:
 > * BPMN - Business Process Model and Notation
 > * EPC - Event-driven Process Chains
