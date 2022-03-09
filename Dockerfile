@@ -36,6 +36,8 @@ EXPOSE ${HTTP_PORT}
 CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
 
 # Installing Wine
+ARG WINE_VERSION=6.0.3
+
 ENV LC_ALL=en_US
 
 # Installing additional packages for additional repos
@@ -54,10 +56,10 @@ RUN set -xe && \
     dpkg --add-architecture i386 && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        winehq-stable=6.0.3~focal-1 \
-        wine-stable=6.0.3~focal-1 \
-        wine-stable-amd64=6.0.3~focal-1 \
-        wine-stable-i386=6.0.3~focal-1
+        winehq-stable=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
+        wine-stable=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
+        wine-stable-amd64=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1 \
+        wine-stable-i386=$(WINE_VERSION)~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1
 
 # Installing MSSQL
 ENV ACCEPT_EULA=Y
@@ -93,10 +95,10 @@ RUN set -xe && \
     locale-gen en_US && \
     mkdir -p "${HOME}/data" && \
     mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf "beeup/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf beeup/support64/*.sql "${HOME}/" && \
-    cp -rf beeup/*.adl "${HOME}/" && \
-    rm -rf beeup/ && \
+    cp -rf "bee-up-master-TOOL/TOOL/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
+    cp -rf bee-up-master-TOOL/TOOL/support64/*.sql "${HOME}/" && \
+    cp -rf bee-up-master-TOOL/TOOL/*.adl "${HOME}/" && \
+    rm -rf bee-up-master-TOOL/TOOL/ && \
     chmod +x "${HOME}/start_app.sh" && \
     chmod +x "${HOME}/start_mssql.sh" && \
     chown -R ${PUID}.${PGID} "${HOME}"
