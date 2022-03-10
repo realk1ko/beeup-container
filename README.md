@@ -31,7 +31,3 @@ simply open your browser and visit `https://localhost:8080/vnc.html`.
 This was last tested with the Bee-Up 1.6 release for macOS (`sha1sum: 7e323785a46c0a438144abf1b19cb19d43d64fea`)
 on Fedora 34 64-bit and MacOS 12.2.1 M1.
 
-## Contributors
-<a href="https://github.com/realk1ko/beeup-docker/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=realk1ko/beeup-docker" alt="https://github.com/realk1ko/beeup-docker/graphs/contributors"/>
-</a>
