@@ -11,7 +11,7 @@ if [ "$input" = 'y' ]; then
   echo "============================================================"
 
   curl -o home/app/beeup.zip https://bee-up.omilab.org/files/tool-installer/Bee-Up_1.6_64-bit_macOS-prototype.zip
-  unzip home/app/beeup.zip home/app
+  unzip home/app/beeup.zip -d home/app
 
   rm -f home/app/beeup.zip
 else
