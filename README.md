@@ -20,10 +20,12 @@ simply open your browser and visit `https://localhost:8080/vnc.html`.
 ## Installation
 1) Clone this repository
 2) Open a terminal and run `bash install.sh` in the repository root
+    - On Windows you can use the `install.ps1` script with PowerShell
 3) Follow the instructions in the terminal
 
 ## Uninstallation
 1) Open a terminal and run `bash uninstall.sh` in the repository root
+    - On Windows you can use the `uninstall.ps1` script with PowerShell
 
 ## Notes
 This was last tested with the Bee-Up 1.6 release for macOS (`sha1sum: 7e323785a46c0a438144abf1b19cb19d43d64fea`)
