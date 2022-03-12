@@ -26,8 +26,8 @@ RUN set -xe && \
 
 # User setup
 RUN set -xe && \
-    groupadd --gid ${PGID} app && \
-    useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid ${PUID} --gid ${PGID} app
+    groupadd --gid "${PGID}" app && \
+    useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid "${PUID}" --gid "${PGID}" app
 
 WORKDIR ${HOME}
 
@@ -76,6 +76,12 @@ RUN set -xe && \
             libodbc1 \
             msodbcsql18
 
+# Installing CUPS
+RUN set -xe && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            cups \
+            printer-driver-cups-pdf
+
 # Removing apt cache
 RUN set -xe && \
     rm -rf /var/lib/apt/lists/*
@@ -94,6 +100,7 @@ ENV WINEARCH=win64 \
 RUN set -xe && \
     locale-gen en_US && \
     mkdir -p "${HOME}/data" && \
+    mkdir -p "${HOME}/PDF" && \
     mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "bee-up-master-TOOL/TOOL/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf bee-up-master-TOOL/TOOL/support64/*.sql "${HOME}/" && \
@@ -101,6 +108,8 @@ RUN set -xe && \
     rm -rf bee-up-master-TOOL/TOOL/ && \
     chmod +x "${HOME}/start_app.sh" && \
     chmod +x "${HOME}/start_mssql.sh" && \
-    chown -R ${PUID}.${PGID} "${HOME}"
+    chown -R "${PUID}"."${PGID}" "${HOME}"
 
 VOLUME ${HOME}/data
+
+VOLUME ${HOME}/PDF

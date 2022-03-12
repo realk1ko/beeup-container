@@ -48,6 +48,7 @@ docker run --name beeup `
   -d `
   -p 8080:8080 `
   -v beeup:/home/app/data `
+  -v ${PWD}\pdfs:/home/app/PDF `
   beeup:latest
 
 

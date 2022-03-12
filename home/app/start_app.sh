@@ -10,6 +10,7 @@ then
   /opt/mssql-tools/bin/sqlcmd -S ${DATABASE_HOST} -U SA -P ${SA_PASSWORD} -i "${HOME}/createUser.sql"
   /opt/mssql-tools/bin/sqlcmd -S ${DATABASE_HOST} -U SA -P ${SA_PASSWORD} -i "${HOME}/createDB.sql"
 
+  # Remember that the DB was initialized
   touch "${HOME}/data/initialized_db"
 fi
 

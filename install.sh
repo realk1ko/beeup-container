@@ -44,6 +44,7 @@ if [ "$(uname -m)" = 'arm64' ]; then
     --add-host=host.docker.internal:host-gateway \
     -p 8080:8080 \
     -v beeup:/home/app/data \
+    -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=host.docker.internal \
     beeup:latest
 else 
@@ -58,6 +59,7 @@ else
     -d \
     -p 8080:8080 \
     -v beeup:/home/app/data \
+    -v "$(pwd)/pdfs":/home/app/PDF \
     beeup:latest
 fi
 
