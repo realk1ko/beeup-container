@@ -3,7 +3,8 @@
 
 docker stop beeup
 docker rm beeup
-docker volume rm beeup
+docker volume rm beeup_db1
+docker volume rm beeup_db2
 docker rmi beeup:latest
 
 Write-Host "============================================================"

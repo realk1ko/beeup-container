@@ -31,9 +31,10 @@ simply open your browser and visit `https://localhost:8080/vnc.html`.
    2) Windows: Open a PowerShell and run `uninstall.ps1` in the repository root
 
 ## Notes on Usage
+- Turn on remote resizing for the best user experience. Click on the gear icon (options) on the left hand side and
+  change the scaling mode.
 - The bundled standard attribute profiles (`*.adl`) can be found in the home directory of the user inside the container.
 - The installation script sets up a directory within the repository root (`./pdfs`) into which the PDF printed models
   are exported.
 - This was last tested with the Bee-Up 1.6 release for macOS (`sha1sum: 7e323785a46c0a438144abf1b19cb19d43d64fea`)
-on Fedora 34 64-bit and MacOS 12.2.1 M1.
-
+  on Fedora 34 64-bit and MacOS 12.2.1 M1.

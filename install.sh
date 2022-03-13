@@ -33,6 +33,8 @@ if [ "$(uname -m)" = 'arm64' ]; then
     -d \
     --cap-add SYS_PTRACE \
     -p 1433:1433 \
+    -v beeup_db1:/opt/mssql/adoxx_data \
+    -v beeup_db2:/var/opt/mssql/data \
     -e 'ACCEPT_EULA=1' \
     -e 'MSSQL_SA_PASSWORD=12+*ADOxx*+34' \
     mcr.microsoft.com/azure-sql-edge:latest
@@ -43,7 +45,6 @@ if [ "$(uname -m)" = 'arm64' ]; then
     -d \
     --add-host=host.docker.internal:host-gateway \
     -p 8080:8080 \
-    -v beeup:/home/app/data \
     -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=host.docker.internal \
     beeup:latest
@@ -58,7 +59,8 @@ else
     --restart unless-stopped \
     -d \
     -p 8080:8080 \
-    -v beeup:/home/app/data \
+    -v beeup_db1:/opt/mssql/adoxx_data \
+    -v beeup_db2:/var/opt/mssql/data \
     -v "$(pwd)/pdfs":/home/app/PDF \
     beeup:latest
 fi
@@ -67,7 +69,7 @@ echo "============================================================"
 echo "You have to finish the installation manually:"
 echo "1) Open http://localhost:8080/vnc.html in your favorite"
 echo "   browser and click 'Connect'. The password to connect is"
-echo "   'password'."
+echo "   'beeup'."
 echo "2) Then click through the installation process and wait."
 echo "3) Wait some more."
 echo

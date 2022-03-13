@@ -8,21 +8,19 @@ ENV HOME=/home/app \
     PUID=1000 \
     PGID=1000 \
     HTTP_PORT=8080 \
-    DISPLAY=:0.0 \
-    DISPLAY_WIDTH=1920 \
-    DISPLAY_HEIGHT=1080 \
-    VNC_PASSWORD=password
+    APP_NAME=Bee-Up \
+    DISPLAY=:0 \
+    VNC_PASSWORD=beeup
 
 # Installing base packages
 RUN set -xe && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         bash \
+        supervisor \
+        tigervnc-standalone-server \
         novnc \
-        x11vnc \
-        xvfb \
-        fluxbox \
-        supervisor
+        openbox
 
 # User setup
 RUN set -xe && \
@@ -99,17 +97,17 @@ ENV WINEARCH=win64 \
 
 RUN set -xe && \
     locale-gen en_US && \
-    mkdir -p "${HOME}/data" && \
     mkdir -p "${HOME}/PDF" && \
     mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "bee-up-master-TOOL/TOOL/setup64/BOC/${TOOLFOLDER}" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf bee-up-master-TOOL/TOOL/support64/*.sql "${HOME}/" && \
     cp -rf bee-up-master-TOOL/TOOL/*.adl "${HOME}/" && \
     rm -rf bee-up-master-TOOL/TOOL/ && \
-    chmod +x "${HOME}/start_app.sh" && \
-    chmod +x "${HOME}/start_mssql.sh" && \
+    chmod +x "${HOME}"/*.sh && \
     chown -R "${PUID}"."${PGID}" "${HOME}"
 
-VOLUME ${HOME}/data
+VOLUME /opt/mssql/adoxx_data/
+
+VOLUME /var/opt/mssql/data/
 
 VOLUME ${HOME}/PDF

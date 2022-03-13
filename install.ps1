@@ -47,7 +47,8 @@ docker run --name beeup `
   --restart unless-stopped `
   -d `
   -p 8080:8080 `
-  -v beeup:/home/app/data `
+  -v beeup_db1:/opt/mssql/adoxx_data `
+  -v beeup_db2:/var/opt/mssql/data `
   -v ${PWD}\pdfs:/home/app/PDF `
   beeup:latest
 
@@ -56,7 +57,7 @@ Write-Host "============================================================"
 Write-Host "You have to finish the installation manually:"
 Write-Host "1) Open http://localhost:8080/vnc.html in your favorite"
 Write-Host "   browser and click 'Connect'. The password to connect is"
-Write-Host "   'password'."
+Write-Host "   'beeup'."
 Write-Host "2) Then click through the installation process and wait."
 Write-Host "3) Wait some more."
 Write-Host
