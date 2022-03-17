@@ -48,7 +48,7 @@ docker run --name beeup `
   -d `
   -p 8080:8080 `
   -v beeup_db1:/opt/mssql/adoxx_data `
-  -v beeup_db2:/var/opt/mssql/data `
+  -v beeup_db2:/var/opt/mssql `
   -v ${PWD}\pdfs:/home/app/PDF `
   beeup:latest
 

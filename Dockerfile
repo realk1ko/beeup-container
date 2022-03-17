@@ -108,6 +108,6 @@ RUN set -xe && \
 
 VOLUME /opt/mssql/adoxx_data/
 
-VOLUME /var/opt/mssql/data/
+VOLUME /var/opt/mssql/
 
 VOLUME ${HOME}/PDF
