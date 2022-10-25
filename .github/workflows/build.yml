@@ -1,0 +1,80 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      base_image:
+        type: string
+        required: true
+      beeup_download_url:
+        type: string
+        required: true
+      beeup_version:
+        type: string
+        required: true
+    secrets:
+      username:
+        required: true
+      password:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
+
+      - name: Download Bee-Up
+        shell: bash
+        run: |
+          set -xe
+          
+          curl -o ./container/home/app/beeup.zip ${{ inputs.beeup_download_url }}
+          unzip ./container/home/app/beeup.zip -d ./container/home/app
+          
+          rm -f ./container/home/app/beeup.zip
+
+      - name: Build and push
+        id: build-and-push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: .
+          build-args: |
+            BASE_IMAGE=${{ inputs.base_image }}
+            WINE_VERSION=6.0.3
+          tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }},ghcr.io/${{ github.repository }}:latest"
+
+      - name: Build and push (arm64-emulation)
+        id: build-and-push-arm64-emulation
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: .
+          build-args: |
+            BASE_IMAGE=${{ inputs.base_image }}
+            WINE_VERSION=7.0.0.0
+          tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }}-arm64-emulation,ghcr.io/${{ github.repository }}:latest-arm64-emulation"
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.password }}
+          tag: ${{ inputs.beeup_version }}
+          body: |
+            Digest: `${{ steps.build-and-push.outputs.digest }}`
+            Digest (arm64): `${{ steps.build-and-push-arm64-emulation.outputs.digest }}`

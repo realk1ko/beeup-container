@@ -1,9 +1,8 @@
 #!/bin/bash
 
+# FIXME automate this properly in the Dockerfile (if possible)
 # CUPS is a bit finicky when it comes to setting up printers. For some reason it does not work when the installation of
 # the printer via lpadmin is done within the Dockerfile. As a result I moved the entire block in here.
-
-# FIXME automate this properly in the Dockerfile (if possible)
 
 set -xe
 

@@ -1,19 +1,28 @@
 #!/bin/bash
 
+set -xe
+
+cat << EOF
+============================================================
+Uninstalling Bee-Up...
+============================================================
+EOF
+
 sudo docker stop beeup
 sudo docker rm beeup
-sudo docker rmi beeup:latest
+sudo docker rmi ghcr.io/realk1ko/beeup-docker:latest
 
 if [ "$(uname -m)" = 'arm64' ]; then
-  sudo docker stop beeup_db
-  sudo docker rm beeup_db
+  sudo docker stop beeup-db
+  sudo docker rm beeup-db
   sudo docker rmi mcr.microsoft.com/azure-sql-edge:latest
 fi
 
-sudo docker volume rm beeup_db1
-sudo docker volume rm beeup_db2
+sudo docker volume rm beeup-db-adoxx
+sudo docker volume rm beeup-db-mssql
 
-echo "============================================================"
-echo "Done. You can remove the cloned repository too. I hope you"
-echo "passed MOD."
-echo "============================================================"
+cat << EOF
+============================================================
+Done. You can now remove the repository folder.
+============================================================
+EOF

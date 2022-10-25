@@ -1,15 +1,16 @@
-# For Windows PowerShell (tested 5.1.19041.1320)
-# and PowerShell (tested 7.1.4)
+Write-Host "============================================================"
+Write-Host "Uninstalling Bee-Up..."
+Write-Host "============================================================"
 
 docker stop beeup
 docker rm beeup
-docker volume rm beeup_db1
-docker volume rm beeup_db2
-docker rmi beeup:latest
+docker rmi ghcr.io/realk1ko/beeup-docker:latest
+
+docker volume rm beeup-db-adoxx
+docker volume rm beeup-db-mssql
 
 Write-Host "============================================================"
-Write-Host "Done. You can remove the cloned repository too. I hope you"
-Write-Host "passed MOD."
+Write-Host "Done. You can now remove the repository folder."
 Write-Host "============================================================"
-# Pause in case the PowerShell script is executed from context menu
+
 Read-Host -Prompt "Press any key to continue"

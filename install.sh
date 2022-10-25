@@ -1,77 +1,65 @@
 #!/bin/bash
 
-echo "============================================================"
-echo -n "Download Bee-up 1.6? (y|n) "
-read input
-echo "============================================================"
-
-if [ "$input" = 'y' ]; then
-  echo "============================================================"
-  echo "Bee-Up 1.6 is being downloaded..."
-  echo "============================================================"
-
-  curl -o home/app/beeup.zip https://bee-up.omilab.org/files/tool-installer/Bee-Up_1.6_64-bit_macOS-prototype.zip
-  unzip home/app/beeup.zip -d home/app
-
-  rm -f home/app/beeup.zip
-else
-  echo "============================================================"
-  echo "Installer expects that you've downloaded Bee-up by yourself"
-  echo "and unzipped it to home/app/bee-up-master-TOOL"
-  echo "============================================================"
-fi
+set -xe
 
 if [ "$(uname -m)" = 'arm64' ]; then
-  echo "============================================================"
-  echo "Running ARM installation procedure..."
-  echo "============================================================"
+  cat << EOF
+============================================================
+Running ARM installation procedure...
+============================================================
+EOF
 
-  sudo docker build --build-arg WINE_VERSION=7.0.0.0 --platform linux/amd64 . -t beeup:latest
-
-  sudo docker run --name beeup_db \
+  sudo docker run --name beeup-db \
     --restart unless-stopped \
     -d \
     --cap-add SYS_PTRACE \
     -p 1433:1433 \
-    -v beeup_db1:/opt/mssql/adoxx_data \
-    -v beeup_db2:/var/opt/mssql \
-    -e 'ACCEPT_EULA=1' \
-    -e 'MSSQL_SA_PASSWORD=12+*ADOxx*+34' \
+    -v beeup-db-adoxx:/opt/mssql/adoxx_data \
+    -v beeup-db-mssql:/var/opt/mssql \
+    -e ACCEPT_EULA=y \
+    -e MSSQL_SA_PASSWORD='12+*ADOxx*+34' \
     mcr.microsoft.com/azure-sql-edge:latest
 
   sudo docker run --platform linux/amd64 \
-    --name beeup \
     --restart unless-stopped \
     -d \
     --add-host=host.docker.internal:host-gateway \
     -p 8080:8080 \
     -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=host.docker.internal \
-    beeup:latest
-else 
-  echo "============================================================"
-  echo "Running generic installation procedure..."
-  echo "============================================================"
-
-  sudo docker build . -t beeup:latest
-
+    -e DATABASE_PASSWORD='12+*ADOxx*+34' \
+    -e DATABASE_NAME=beeup16_64 \
+    -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
+    ghcr.io/realk1ko/beeup-docker:latest-arm64-emulation
+else
+  cat << EOF
+============================================================
+Running generic installation procedure...
+============================================================
+EOF
   sudo docker run --name beeup \
     --restart unless-stopped \
     -d \
     -p 8080:8080 \
-    -v beeup_db1:/opt/mssql/adoxx_data \
-    -v beeup_db2:/var/opt/mssql \
+    -v beeup-db-adoxx:/opt/mssql/adoxx_data \
+    -v beeup-db-mssql:/var/opt/mssql \
     -v "$(pwd)/pdfs":/home/app/PDF \
-    beeup:latest
+    -e DATABASE_HOST=127.0.0.1 \
+    -e DATABASE_PASSWORD='12+*ADOxx*+34' \
+    -e DATABASE_NAME=beeup16_64 \
+    -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
+    ghcr.io/realk1ko/beeup-docker:latest
 fi
 
-echo "============================================================"
-echo "You have to finish the installation manually:"
-echo "1) Open http://localhost:8080/vnc.html in your favorite"
-echo "   browser and click 'Connect'. The password to connect is"
-echo "   'beeup'."
-echo "2) Then click through the installation process and wait."
-echo "3) Wait some more."
-echo
-echo "That should be it, you're good to go."
-echo "============================================================"
+cat << EOF
+============================================================
+You have to finish the installation manually:
+1) Open http://localhost:8080/vnc.html in your favorite
+   browser and click 'Connect'. The password to connect is
+   'beeup'.
+2) Then click through the installation process and wait.
+3) Wait some more.
+
+That should be it, you're good to go.
+============================================================
+EOF

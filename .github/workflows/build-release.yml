@@ -1,0 +1,24 @@
+name: Build (Release)
+
+on:
+  push:
+    branches: [ dev ]
+  workflow_dispatch:
+    inputs:
+      beeup_download_url:
+        type: string
+        required: true
+      beeup_version:
+        type: string
+        required: true
+
+jobs:
+  build-release-amd64:
+    uses: ./.github/workflows/build.yml
+    with:
+      base_image: docker.io/library/ubuntu:focal
+      beeup_download_url: ${{ inputs.beeup_download_url }}
+      beeup_version: ${{ inputs.beeup_version }}
+    secrets:
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
