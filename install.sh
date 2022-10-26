@@ -29,6 +29,7 @@ EOF
     -e DATABASE_HOST=host.docker.internal \
     -e DATABASE_PASSWORD='12+*ADOxx*+34' \
     -e DATABASE_NAME=beeup16_64 \
+    -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
     ghcr.io/realk1ko/beeup-docker:latest-arm64-emulation
 else
@@ -47,6 +48,7 @@ EOF
     -e DATABASE_HOST=127.0.0.1 \
     -e DATABASE_PASSWORD='12+*ADOxx*+34' \
     -e DATABASE_NAME=beeup16_64 \
+    -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
     ghcr.io/realk1ko/beeup-docker:latest
 fi
