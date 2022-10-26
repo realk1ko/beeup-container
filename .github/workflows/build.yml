@@ -83,4 +83,4 @@ jobs:
           tag: ${{ inputs.beeup_version }}
           body: |
             Digest: `${{ steps.build-and-push.outputs.digest }}`
-            Digest (arm64): `${{ steps.build-and-push-arm64-emulation.outputs.digest }}`
+            Digest (arm64-emulation): `${{ steps.build-and-push-arm64-emulation.outputs.digest }}`
