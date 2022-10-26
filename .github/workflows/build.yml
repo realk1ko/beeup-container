@@ -6,6 +6,12 @@ on:
       base_image:
         type: string
         required: true
+      wine_version:
+        type: string
+        required: true
+      wine_version_arm64_emulation:
+        type: string
+        required: true
       beeup_download_url:
         type: string
         required: true
@@ -56,7 +62,7 @@ jobs:
           context: .
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
-            WINE_VERSION=6.0.3
+            WINE_VERSION=${{ inputs.wine_version }}
           tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }},ghcr.io/${{ github.repository }}:latest"
 
       - name: Build and push (arm64-emulation)
@@ -67,7 +73,7 @@ jobs:
           context: .
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
-            WINE_VERSION=7.0.0.0
+            WINE_VERSION=${{ inputs.wine_version_arm64_emulation }}
           tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }}-arm64-emulation,ghcr.io/${{ github.repository }}:latest-arm64-emulation"
 
       - name: Create release

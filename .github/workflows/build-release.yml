@@ -17,6 +17,8 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       base_image: docker.io/library/ubuntu:focal
+      wine_version: 6.0.3
+      wine_version_arm64_emulation: 7.0.0.0
       beeup_download_url: ${{ inputs.beeup_download_url }}
       beeup_version: ${{ inputs.beeup_version }}
     secrets:
