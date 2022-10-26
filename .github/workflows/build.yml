@@ -21,7 +21,7 @@ on:
     secrets:
       username:
         required: true
-      password:
+      token:
         required: true
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ secrets.username }}
-          password: ${{ secrets.password }}
+          password: ${{ secrets.token }}
 
       - name: Download Bee-Up
         shell: bash
