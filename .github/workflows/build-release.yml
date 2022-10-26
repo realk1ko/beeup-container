@@ -1,8 +1,6 @@
 name: Build (Release)
 
 on:
-  push:
-    branches: [ dev ]
   workflow_dispatch:
     inputs:
       beeup_download_url:
