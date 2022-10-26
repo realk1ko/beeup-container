@@ -58,13 +58,13 @@ Within the running container the following directories might be of interest for 
 
 The following environment variables can be used for configuration:
 
-| Variable               | Description                                                                                                                                                                                                                     |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `DATABASE_HOST`        | The database host that Bee-Up will connect to; If this value is `127.0.0.1` the integrated MSSQL instance will be started in the container, otherwise MSSQL will not start                                                      |
-| `DATABASE_PASSWORD`    | The database super admin (SA) password to use                                                                                                                                                                                   |
-| `DATABASE_NAME`        | The name of the database object Bee-Up will use                                                                                                                                                                                 |
-| `DATABASE_ACCEPT_EULA` | When you're using the integrated MSSQL database (`DATABASE_HOST=127.0.0.1`), you need to accept the end user license agreement between Microsoft and you; Refer to https://go.microsoft.com/fwlink/?LinkId=746388 for more info |
-| `ADOXX_LICENSE_KEY`    | The license key to activate/install ADOxx                                                                                                                                                                                       |
+| Variable               | Description                                                                                                                                                                                                                                                |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DATABASE_HOST`        | The database host that Bee-Up will connect to; If this value is `127.0.0.1` the integrated MSSQL instance will be started in the container, otherwise MSSQL will not start                                                                                 |
+| `DATABASE_PASSWORD`    | The database super admin (SA) password to use                                                                                                                                                                                                              |
+| `DATABASE_NAME`        | The name of the database object Bee-Up will use                                                                                                                                                                                                            |
+| `DATABASE_ACCEPT_EULA` | When you're using the integrated MSSQL database (`DATABASE_HOST=127.0.0.1`), you need to accept the end user license agreement between Microsoft and you (`DATABASE_ACCEPT_EULA=y`); Refer to https://go.microsoft.com/fwlink/?LinkId=746388 for more info |
+| `ADOXX_LICENSE_KEY`    | The license key to activate/install ADOxx                                                                                                                                                                                                                  |
 
 The following run command can be used as an guide for a manual setup:
 ```
@@ -78,6 +78,7 @@ sudo docker run --name beeup \
     -e DATABASE_HOST=127.0.0.1 \
     -e DATABASE_PASSWORD='supersecret' \
     -e DATABASE_NAME=beeup_64 \
+    -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=494fe189-0931-4648-bde4-156f452dea2a \
     ghcr.io/realk1ko/beeup-docker:latest
 ```
