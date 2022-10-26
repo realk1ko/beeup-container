@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       beeup_download_url:
+        description: Bee-Up Download URL
         type: string
         required: true
       beeup_version:
+        description: Bee-Up Version
         type: string
         required: true
 
