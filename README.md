@@ -2,8 +2,8 @@
 
 # Bee-Up via Docker
 
-[![latest](https://img.shields.io/github/v/release/realk1ko/beeup-docker?label=latest)](https://github.com/realk1ko/beeup-docker/releases/latest)
-[![license](https://img.shields.io/github/license/realk1ko/beeup-docker.svg)](https://github.com/realk1ko/beeup-docker/blob/master/LICENSE)
+[![Release](https://img.shields.io/github/v/release/realk1ko/beeup-docker)](https://github.com/realk1ko/beeup-docker/releases/latest)
+[![License](https://img.shields.io/github/license/realk1ko/beeup-docker.svg)](https://github.com/realk1ko/beeup-docker/blob/master/LICENSE)
 
 > Bee-Up is an ADOxx-based hybrid modelling tool, encompassing five different modelling languages:
 > * BPMN - Business Process Model and Notation
