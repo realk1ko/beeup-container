@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -xe
+set -euo pipefail
 
-if [ "$(uname -m)" = 'arm64' ]; then
+if [[ "$(uname -m)" = 'arm64' ]]; then
   cat << EOF
 ============================================================
 Running ARM installation procedure...

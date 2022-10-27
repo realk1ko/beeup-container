@@ -47,7 +47,7 @@ jobs:
       - name: Download Bee-Up
         shell: bash
         run: |
-          set -xe
+          set -euo pipefail
           
           curl -o ./container/home/app/beeup.zip ${{ inputs.beeup_download_url }}
           unzip ./container/home/app/beeup.zip -d ./container/home/app

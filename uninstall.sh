@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -xe
+set -euo pipefail
 
 cat << EOF
 ============================================================
@@ -12,7 +12,7 @@ sudo docker stop beeup
 sudo docker rm beeup
 sudo docker rmi ghcr.io/realk1ko/beeup-docker:latest
 
-if [ "$(uname -m)" = 'arm64' ]; then
+if [[ "$(uname -m)" = 'arm64' ]]; then
   sudo docker stop beeup-db
   sudo docker rm beeup-db
   sudo docker rmi mcr.microsoft.com/azure-sql-edge:latest

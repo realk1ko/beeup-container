@@ -15,13 +15,13 @@ ENV HOME=/home/app \
     PUID=1000 \
     PGID=1000
 
-RUN set -xe && \
+RUN set -euo pipefail && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         bash \
         supervisor
 
-RUN set -xe && \
+RUN set -euo pipefail && \
     groupadd --gid "${PGID}" app && \
     useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid "${PUID}" --gid "${PGID}" app
 
@@ -35,7 +35,7 @@ ENV HTTP_PORT=8080 \
     DISPLAY=:0 \
     VNC_PASSWORD=beeup
 
-RUN set -xe && \
+RUN set -euo pipefail && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         tigervnc-standalone-server \
         novnc \
@@ -46,7 +46,7 @@ EXPOSE ${HTTP_PORT}
 # Build dependencies
 ENV LC_ALL=en_US
 
-RUN set -xe && \
+RUN set -euo pipefail && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         wget \
         gnupg \
@@ -55,7 +55,7 @@ RUN set -xe && \
     locale-gen en_US
 
 # CUPS
-RUN set -xe && \
+RUN set -euo pipefail && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         cups \
         printer-driver-cups-pdf
@@ -67,7 +67,7 @@ ENV WINEARCH=win64 \
     WINEPREFIX="${HOME}/.wine_adoxx" \
     WINEDEBUG=-all
 
-RUN set -xe && \
+RUN set -euo pipefail && \
     wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
     echo "deb https://dl.winehq.org/wine-builds/ubuntu/ $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
     dpkg --add-architecture i386 && \
@@ -79,7 +79,7 @@ RUN set -xe && \
         wine-stable-i386="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1"
 
 # MSSQL
-RUN set -xe && \
+RUN set -euo pipefail && \
     wget -nv -O- https://packages.microsoft.com/keys/microsoft.asc | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
     echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/mssql-server-2019 $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
     echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/prod $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
@@ -92,7 +92,7 @@ RUN set -xe && \
         msodbcsql18
 
 # Post installation tasks
-RUN set -xe && \
+RUN set -euo pipefail && \
     # remove apt cache
     rm -rf /var/lib/apt/lists/* && \
 

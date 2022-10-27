@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 # FIXME automate this properly in the Dockerfile (if possible)
 # CUPS is a bit finicky when it comes to setting up printers. For some reason it does not work when the installation of

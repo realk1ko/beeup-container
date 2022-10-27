@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -xe
+set -euo pipefail
 
 wineboot
 
