@@ -15,10 +15,10 @@ then
 
   # set up ODBC configuration
   cat <<EOF > "${HOME}/odbc.ini"
-[beeup16_64]
+[${DATABASE_NAME}]
 Driver=ODBC Driver 17 for SQL Server
 Server=${DATABASE_HOST}
-Database=beeup16_64
+Database=${DATABASE_NAME}
 AutoTranslate=no
 EOF
   odbcinst -i -s "${DATABASE_NAME}" -f "${HOME}/odbc.ini"

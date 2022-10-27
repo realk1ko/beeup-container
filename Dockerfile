@@ -8,8 +8,6 @@ LABEL org.opencontainers.image.licenses MIT
 LABEL org.opencontainers.image.url https://github.com/realk1ko/beeup-docker
 LABEL maintainer realk1ko <32820057+realk1ko@users.noreply.github.com>
 
-ADD ./container /
-
 # Basics
 ENV HOME=/home/app \
     PUID=1000 \
@@ -58,7 +56,8 @@ RUN set -eu && \
 RUN set -eu && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         cups \
-        printer-driver-cups-pdf
+        printer-driver-cups-pdf && \
+    mkdir -p "${HOME}/PDF"
 
 # Wine
 ARG WINE_VERSION
@@ -91,21 +90,18 @@ RUN set -eu && \
         libodbc1 \
         msodbcsql18
 
-# Post installation tasks
+# Bee-Up
+ADD ./container /
+
 RUN set -eu && \
-    # remove apt cache
-    rm -rf /var/lib/apt/lists/* && \
-
-    # create required directories
-    mkdir -p "${HOME}/PDF" && \
     mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-
-    # "install" Bee-Up
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/setup64/BOC/BEEUP16_ADOxx_SA" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/support64/"*.sql "${HOME}/" && \
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/"*.adl "${HOME}/" && \
     rm -rf "${HOME}/bee-up-master-TOOL/TOOL/" && \
-
-    # correct permissions
     chmod +x "${HOME}"/*.sh && \
     chown -R "${PUID}"."${PGID}" "${HOME}"
+
+# Clean up apt cache
+RUN set -eu && \
+    rm -rf /var/lib/apt/lists/*
