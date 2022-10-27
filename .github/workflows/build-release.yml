@@ -13,7 +13,7 @@ on:
         required: true
 
 jobs:
-  build-release-amd64:
+  build-release:
     uses: ./.github/workflows/build.yml
     with:
       base_image: docker.io/library/ubuntu:focal
