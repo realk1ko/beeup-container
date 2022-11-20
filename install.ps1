@@ -14,7 +14,7 @@ docker run --name beeup `
     -e DATABASE_NAME=beeup16_64 `
     -e DATABASE_ACCEPT_EULA=y `
     -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ `
-    ghcr.io/realk1ko/beeup-docker:latest
+    ghcr.io/realk1ko/beeup:latest
 
 Write-Host "============================================================"
 Write-Host "You have to finish the installation manually:"

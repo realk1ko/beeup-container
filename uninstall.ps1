@@ -4,7 +4,7 @@ Write-Host "============================================================"
 
 docker stop beeup
 docker rm beeup
-docker rmi ghcr.io/realk1ko/beeup-docker:latest
+docker rmi ghcr.io/realk1ko/beeup:latest
 
 docker volume rm beeup-db-adoxx
 docker volume rm beeup-db-mssql

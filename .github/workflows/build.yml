@@ -6,6 +6,9 @@ on:
       base_image:
         type: string
         required: true
+      image_name:
+        type: string
+        required: true
       wine_version:
         type: string
         required: true
@@ -63,7 +66,7 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
             WINE_VERSION=${{ inputs.wine_version }}
-          tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }},ghcr.io/${{ github.repository }}:latest"
+          tags: "ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${{ inputs.beeup_version }},ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:latest"
 
       - name: Build and push (arm64-emulation)
         id: build-and-push-arm64-emulation
@@ -74,4 +77,4 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
             WINE_VERSION=${{ inputs.wine_version_arm64_emulation }}
-          tags: "ghcr.io/${{ github.repository }}:${{ inputs.beeup_version }}-arm64-emulation,ghcr.io/${{ github.repository }}:latest-arm64-emulation"
+          tags: "ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${{ inputs.beeup_version }}-arm64-emulation,ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:latest-arm64-emulation"

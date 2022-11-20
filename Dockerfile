@@ -5,7 +5,7 @@ FROM ${BASE_IMAGE}
 LABEL org.opencontainers.image.title Bee-Up
 LABEL org.opencontainers.image.description Bee-Up is an ADOxx-based hybrid modelling tool
 LABEL org.opencontainers.image.licenses MIT
-LABEL org.opencontainers.image.url https://github.com/realk1ko/beeup-docker
+LABEL org.opencontainers.image.url https://github.com/realk1ko/beeup-container
 LABEL maintainer realk1ko <32820057+realk1ko@users.noreply.github.com>
 
 # Basics

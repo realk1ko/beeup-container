@@ -31,7 +31,7 @@ EOF
     -e DATABASE_NAME=beeup16_64 \
     -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
-    ghcr.io/realk1ko/beeup-docker:latest-arm64-emulation
+    ghcr.io/realk1ko/beeup:latest-arm64-emulation
 else
   cat << EOF
 ============================================================
@@ -50,7 +50,7 @@ EOF
     -e DATABASE_NAME=beeup16_64 \
     -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=zAd-nvkz-Ynrtvrht9IAL2pZ \
-    ghcr.io/realk1ko/beeup-docker:latest
+    ghcr.io/realk1ko/beeup:latest
 fi
 
 cat << EOF

@@ -10,7 +10,7 @@ EOF
 
 sudo docker stop beeup
 sudo docker rm beeup
-sudo docker rmi ghcr.io/realk1ko/beeup-docker:latest
+sudo docker rmi ghcr.io/realk1ko/beeup:latest
 
 if [[ "$(uname -m)" = 'arm64' ]]; then
   sudo docker stop beeup-db
