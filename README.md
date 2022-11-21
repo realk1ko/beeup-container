@@ -82,7 +82,7 @@ sudo docker run --name beeup \
     -e DATABASE_NAME=beeup_64 \
     -e DATABASE_ACCEPT_EULA=y \
     -e ADOXX_LICENSE_KEY=494fe189-0931-4648-bde4-156f452dea2a \
-    ghcr.io/realk1ko/beeup
+    ghcr.io/realk1ko/beeup:latest
 ```
 
 ### Notes
