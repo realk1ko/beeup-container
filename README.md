@@ -85,7 +85,7 @@ sudo docker run --name beeup \
     ghcr.io/realk1ko/beeup
 ```
 
-### Notes on Usage
+### Notes
 
 - Turn on remote resizing for the best user experience. Click on the gear icon (options) on the left hand side and
   change the scaling mode.
