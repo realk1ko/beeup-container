@@ -18,6 +18,7 @@ jobs:
     with:
       base_image: docker.io/library/ubuntu:focal
       image_name: beeup
+      platforms: linux/amd64
       wine_version: 6.0.3
       wine_version_arm64_emulation: 7.0.0.0
       beeup_download_url: ${{ inputs.beeup_download_url }}

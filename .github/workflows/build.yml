@@ -9,6 +9,9 @@ on:
       image_name:
         type: string
         required: true
+      platforms:
+        type: string
+        required: true
       wine_version:
         type: string
         required: true
@@ -63,6 +66,7 @@ jobs:
         with:
           push: true
           context: .
+          platforms: ${{ inputs.platforms }}
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
             WINE_VERSION=${{ inputs.wine_version }}
@@ -74,6 +78,7 @@ jobs:
         with:
           push: true
           context: .
+          platforms: ${{ inputs.platforms }}
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
             WINE_VERSION=${{ inputs.wine_version_arm64_emulation }}
