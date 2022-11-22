@@ -68,7 +68,7 @@ jobs:
           IFS="," read -ra partial_tags <<< "${{ inputs.tags }}"
           
           for partial_tag in ${partial_tags}; do
-            tags+="ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${partial_tag}"
+            tags+="ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${partial_tag},"
           done
           
           echo "tags=${tags}" >> $GITHUB_OUTPUT
