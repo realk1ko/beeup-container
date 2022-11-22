@@ -3,14 +3,21 @@ name: Build (Release)
 on:
   workflow_dispatch:
     inputs:
+      tags:
+        description: Tags
+        type: string
+        required: true
+        default: "latest,1.6"
+      wine_version:
+        description: Wine Version
+        type: string
+        required: true
+        default: 6.0.3
       beeup_download_url:
         description: Bee-Up Download URL
         type: string
         required: true
-      beeup_version:
-        description: Bee-Up Version
-        type: string
-        required: true
+        default: "https://bee-up.omilab.org/files/tool-installer/Bee-Up_1.6_64-bit_macOS-prototype.zip"
 
 jobs:
   build-release:
@@ -18,11 +25,10 @@ jobs:
     with:
       base_image: docker.io/library/ubuntu:focal
       image_name: beeup
+      tags: ${{ inputs.tags }}
       platforms: linux/amd64
-      wine_version: 6.0.3
-      wine_version_arm64_emulation: 7.0.0.0
+      wine_version: ${{ inputs.wine_version }}
       beeup_download_url: ${{ inputs.beeup_download_url }}
-      beeup_version: ${{ inputs.beeup_version }}
     secrets:
       username: ${{ github.actor }}
       token: ${{ secrets.GITHUB_TOKEN }}

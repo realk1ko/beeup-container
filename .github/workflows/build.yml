@@ -9,19 +9,16 @@ on:
       image_name:
         type: string
         required: true
+      tags:
+        type: string
+        required: true
       platforms:
         type: string
         required: true
       wine_version:
         type: string
         required: true
-      wine_version_arm64_emulation:
-        type: string
-        required: true
       beeup_download_url:
-        type: string
-        required: true
-      beeup_version:
         type: string
         required: true
     secrets:
@@ -40,7 +37,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
-      - name: Set up Docker Buildx
+      - name: Set up Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Login to registry
@@ -60,6 +57,22 @@ jobs:
           
           rm -f ./container/home/app/beeup.zip
 
+      - name: Prepare tags
+        id: prepare-tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          
+          tags=""
+          
+          IFS="," read -ra partial_tags <<< "${{ inputs.tags }}"
+          
+          for partial_tag in ${partial_tags}; do
+            tags+="ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${partial_tag}"
+          done
+          
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+
       - name: Build and push
         id: build-and-push
         uses: docker/build-push-action@v3
@@ -70,16 +83,4 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
             WINE_VERSION=${{ inputs.wine_version }}
-          tags: "ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${{ inputs.beeup_version }},ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:latest"
-
-      - name: Build and push (arm64-emulation)
-        id: build-and-push-arm64-emulation
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          context: .
-          platforms: ${{ inputs.platforms }}
-          build-args: |
-            BASE_IMAGE=${{ inputs.base_image }}
-            WINE_VERSION=${{ inputs.wine_version_arm64_emulation }}
-          tags: "ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:${{ inputs.beeup_version }}-arm64-emulation,ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:latest-arm64-emulation"
+          tags: ${{ steps.prepare-tags.outputs.tags }}
