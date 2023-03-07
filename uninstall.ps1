@@ -6,8 +6,7 @@ docker stop beeup
 docker rm beeup
 docker rmi ghcr.io/realk1ko/beeup:latest
 
-docker volume rm beeup-db-adoxx
-docker volume rm beeup-db-mssql
+docker volume rm beeup-db
 
 Write-Host "============================================================"
 Write-Host "Done. You can now remove the repository folder."

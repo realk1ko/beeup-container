@@ -20,8 +20,7 @@ else
   sudo docker rmi ghcr.io/realk1ko/beeup:latest
 fi
 
-sudo docker volume rm beeup-db-adoxx
-sudo docker volume rm beeup-db-mssql
+sudo docker volume rm beeup-db
 
 cat << EOF
 ============================================================
