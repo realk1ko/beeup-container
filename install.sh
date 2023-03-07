@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+mkdir -p ./pdfs
+
 if [[ "$(uname -m)" = 'arm64' ]]; then
   cat << EOF
 ============================================================
@@ -20,7 +22,8 @@ EOF
     -e MSSQL_SA_PASSWORD='12+*ADOxx*+34' \
     mcr.microsoft.com/azure-sql-edge:latest
 
-  sudo docker run --platform linux/amd64 \
+  sudo docker run --name beeup \
+    --platform linux/amd64 \
     --restart unless-stopped \
     -d \
     --add-host=host.docker.internal:host-gateway \

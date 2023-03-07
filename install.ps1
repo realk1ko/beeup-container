@@ -1,3 +1,5 @@
+New-Item ./pdfs -ItemType Directory -ea 0
+
 Write-Host "============================================================"
 Write-Host "Running generic installation procedure..."
 Write-Host "============================================================"
