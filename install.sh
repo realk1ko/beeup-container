@@ -16,8 +16,7 @@ EOF
     -d \
     --cap-add SYS_PTRACE \
     -p 1433:1433 \
-    -v beeup-db-adoxx:/opt/mssql/adoxx_data \
-    -v beeup-db-mssql:/var/opt/mssql \
+    -v beeup-db:/var/opt/mssql \
     -e ACCEPT_EULA=y \
     -e MSSQL_SA_PASSWORD='12+*ADOxx*+34' \
     mcr.microsoft.com/azure-sql-edge:latest
@@ -45,8 +44,7 @@ EOF
     --restart unless-stopped \
     -d \
     -p 8080:8080 \
-    -v beeup-db-adoxx:/opt/mssql/adoxx_data \
-    -v beeup-db-mssql:/var/opt/mssql \
+    -v beeup-db:/var/opt/mssql \
     -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=127.0.0.1 \
     -e DATABASE_PASSWORD='12+*ADOxx*+34' \

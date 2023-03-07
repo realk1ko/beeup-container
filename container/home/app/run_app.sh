@@ -10,7 +10,7 @@ then
   # FIXME sqlcmd actually never returns a non-zero status code (AFAIK), so the echos below will never be printed
   /opt/mssql-tools/bin/sqlcmd -S "${DATABASE_HOST}" -U SA -P "${DATABASE_PASSWORD}" -i "${HOME}/createUser.sql" || \
     echo 'User already exists.'
-  /opt/mssql-tools/bin/sqlcmd -S "${DATABASE_HOST}" -U SA -P "${DATABASE_PASSWORD}" -i "${HOME}/createDB.sql" || \
+  /opt/mssql-tools/bin/sqlcmd -S "${DATABASE_HOST}" -U SA -P "${DATABASE_PASSWORD}" -i "${HOME}/createDBCorrectPath.sql" || \
     echo 'Database already exists.'
 
   # set up ODBC configuration

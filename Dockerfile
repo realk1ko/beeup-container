@@ -98,7 +98,7 @@ RUN set -eu && \
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/setup64/BOC/BEEUP16_ADOxx_SA" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/support64/"*.sql "${HOME}/" && \
     cp -rf "${HOME}/bee-up-master-TOOL/TOOL/"*.adl "${HOME}/" && \
-    rm -rf "${HOME}/bee-up-master-TOOL/TOOL/" && \
+    rm -rf "${HOME}/bee-up-master-TOOL/" && \
     chmod +x "${HOME}"/*.sh && \
     chown -R "${PUID}"."${PGID}" "${HOME}"
 

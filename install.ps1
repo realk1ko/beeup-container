@@ -8,8 +8,7 @@ docker run --name beeup `
     --restart unless-stopped `
     -d `
     -p 8080:8080 `
-    -v beeup-db-adoxx:/opt/mssql/adoxx_data `
-    -v beeup-db-mssql:/var/opt/mssql `
+    -v beeup-db:/var/opt/mssql `
     -v ${PWD}\pdfs:/home/app/PDF `
     -e DATABASE_HOST=127.0.0.1 `
     -e DATABASE_PASSWORD='12+*ADOxx*+34' `

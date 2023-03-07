@@ -51,11 +51,10 @@ The container's HTTP port defaults to `8080`.
 
 Within the running container the following directories might be of interest for a manual setup:
 
-| Directory               | Description                                                                           |
-|-------------------------|---------------------------------------------------------------------------------------|
-| `/opt/mssql/adoxx_data` | Contains the database files created by ADOxx                                          |
-| `/var/opt/mssql`        | Contains the database files created by MSSQL (for instance for users and permissions) |
-| `/home/app/PDF`         | Is the directory the PDF printing function will save the files to                     |
+| Directory        | Description                                                       |
+|------------------|-------------------------------------------------------------------|
+| `/var/opt/mssql` | Contains the database files created by MSSQL                      |
+| `/home/app/PDF`  | Is the directory the PDF printing function will save the files to |
 
 The following environment variables can be used for configuration:
 
@@ -74,8 +73,7 @@ sudo docker run --name beeup \
     --restart unless-stopped \
     -d \
     -p 8080:8080 \
-    -v beeup-db-adoxx:/opt/mssql/adoxx_data \
-    -v beeup-db-mssql:/var/opt/mssql \
+    -v beeup-db:/var/opt/mssql \
     -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=127.0.0.1 \
     -e DATABASE_PASSWORD='supersecret' \
