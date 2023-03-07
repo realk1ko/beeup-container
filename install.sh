@@ -26,7 +26,6 @@ EOF
     --platform linux/amd64 \
     --restart unless-stopped \
     -d \
-    --add-host=host.docker.internal:host-gateway \
     -p 8080:8080 \
     -v "$(pwd)/pdfs":/home/app/PDF \
     -e DATABASE_HOST=host.docker.internal \
@@ -41,6 +40,7 @@ else
 Running generic installation procedure...
 ============================================================
 EOF
+
   sudo docker run --name beeup \
     --restart unless-stopped \
     -d \
