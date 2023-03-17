@@ -25,7 +25,7 @@ modelling class in university.
 
 To get started with an automated installation, do the following:
 
-1) [Clone this repository](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls):
+1) [Clone this repository](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls)
 2) Then, run the installation script:
     - **Linux/MacOS:** Open a terminal inside the repository folder and run `bash install.sh`
     - **Windows:** Open a PowerShell inside the repository folder and run `install.ps1`
