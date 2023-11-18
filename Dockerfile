@@ -80,7 +80,8 @@ RUN set -eu && \
 ADD ./container /
 
 ENV INSTALL_PATH="${WINEPREFIX}/drive_c/Program Files/Bee-Up" \
-    ADO_SQLITE_DBFOLDER="${HOME}/data"
+    ADO_SQLITE_DBFOLDER="${HOME}/data" \
+    ADO_LICENSE_KEY="zAd-nvkz-YnrvwreuEKAL2pI"
 
 RUN set -eu && \
     mkdir -p "${INSTALL_PATH}" && \

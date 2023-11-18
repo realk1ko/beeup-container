@@ -54,12 +54,6 @@ Within the running container the following directories might be of interest for 
 | `/home/app/data` | Contains the SQLite database files created by Bee-Up |
 | `/home/app/pdf`  | Target directory for the PDF printing function       |
 
-The following environment variables can be used for configuration:
-
-| Variable            | Description                       |
-|---------------------|-----------------------------------|
-| `ADOXX_LICENSE_KEY` | The license key to activate ADOxx |
-
 The following run command can be used as an guide for a manual setup:
 
 ```
@@ -69,7 +63,6 @@ sudo docker run --name beeup \
     -p 8080:8080 \
     -v beeup:/home/app/data \
     -v "$(pwd)/pdf":/home/app/pdf \
-    -e ADOXX_LICENSE_KEY=494fe189-0931-4648-bde4-156f452dea2a \
     ghcr.io/realk1ko/beeup:latest
 ```
 

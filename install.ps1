@@ -10,7 +10,6 @@ docker run --name beeup `
     -p 8080:8080 `
     -v beeup:/home/app/data `
     -v ${PWD}\pdf:/home/app/pdf `
-    -e ADOXX_LICENSE_KEY=zAd-nvkz-YnrvwreuEKAL2pI `
     ghcr.io/realk1ko/beeup:latest
 
 Write-Host "============================================================"
