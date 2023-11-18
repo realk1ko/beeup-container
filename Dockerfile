@@ -86,8 +86,10 @@ RUN set -eu && \
     mkdir -p "${INSTALL_PATH}" && \
     mkdir -p "${ADO_SQLITE_DBFOLDER}" && \
     mkdir -p "${HOME}/pdf" && \
+    mkdir -p "${HOME}/adl" && \
     cp -rf "${HOME}/installer/install-support/app/"* "${INSTALL_PATH}" && \
-    rm -rf "${HOME}/installer/" && \
+    cp -rf "${HOME}/installer/"*.adl "${HOME}/adl" && \
+    rm -rf "${HOME}/installer" && \
     chmod +x "${HOME}/.local/bin/"*.sh && \
     chown -R "${PUID}"."${PGID}" "${HOME}"
 

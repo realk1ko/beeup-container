@@ -80,7 +80,7 @@ sudo docker run --name beeup \
 - The installation script sets up a directory within the repository folder (`./pdf`) into which the PDF printed models
   are exported.
 - The bundled standard attribute profiles (`*.adl`) should be imported automatically. If for some reason this import
-  fails, you can find it in `/home/app/.wine/drive_c/Program Files/Bee-Up/adostd.adl` inside the container.
+  fails, you can find them in `/home/app/adl` inside the container.
 - The installation script sets up a volume for the SQLite database named `beeup`. This volume is removed if the
   uninstall script is run. **Make sure to properly backup in case of version upgrades!**
 - Upon first startup of a (persistent) container, the non-automated parts of the installation process will run. This
