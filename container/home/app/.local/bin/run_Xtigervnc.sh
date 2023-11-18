@@ -2,15 +2,10 @@
 
 set -euo pipefail
 
-# Setup VNC password
-mkdir -p "${HOME}/.vnc/"
-echo "${VNC_PASSWORD}" | tigervncpasswd -f > "${HOME}/.vnc/passwd"
-
 Xtigervnc -desktop "${APP_NAME}" \
   -localhost \
   -rfbport 5900 \
-  -SecurityTypes VncAuth \
-  -PasswordFile "${HOME}/.vnc/passwd" \
+  -SecurityTypes None \
   -AlwaysShared \
   -AcceptKeyEvents \
   -AcceptPointerEvents \

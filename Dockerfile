@@ -56,14 +56,13 @@ RUN set -eu && \
 RUN set -eu && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         cups \
-        printer-driver-cups-pdf && \
-    mkdir -p "${HOME}/PDF"
+        printer-driver-cups-pdf
 
 # Wine
 ARG WINE_VERSION
 
 ENV WINEARCH=win64 \
-    WINEPREFIX="${HOME}/.wine_adoxx" \
+    WINEPREFIX="${HOME}/.wine" \
     WINEDEBUG=-all
 
 RUN set -eu && \
@@ -77,29 +76,19 @@ RUN set -eu && \
         wine-stable-amd64="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
         wine-stable-i386="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1"
 
-# MSSQL
-RUN set -eu && \
-    wget -nv -O- https://packages.microsoft.com/keys/microsoft.asc | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
-    echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/mssql-server-2019 $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
-    echo "deb https://packages.microsoft.com/ubuntu/$(lsb_release -sr)/prod $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=y apt-get install -y \
-        mssql-server \
-        mssql-tools \
-        unixodbc \
-        libodbc1 \
-        msodbcsql18
-
 # Bee-Up
 ADD ./container /
 
+ENV INSTALL_PATH="${WINEPREFIX}/drive_c/Program Files/Bee-Up" \
+    ADO_SQLITE_DBFOLDER="${HOME}/data"
+
 RUN set -eu && \
-    mkdir -p "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf "${HOME}/bee-up-master-TOOL/TOOL/setup64/BOC/BEEUP16_ADOxx_SA" "${WINEPREFIX}/drive_c/Program Files/BOC/" && \
-    cp -rf "${HOME}/bee-up-master-TOOL/TOOL/support64/"*.sql "${HOME}/" && \
-    cp -rf "${HOME}/bee-up-master-TOOL/TOOL/"*.adl "${HOME}/" && \
-    rm -rf "${HOME}/bee-up-master-TOOL/" && \
-    chmod +x "${HOME}"/*.sh && \
+    mkdir -p "${INSTALL_PATH}" && \
+    mkdir -p "${ADO_SQLITE_DBFOLDER}" && \
+    mkdir -p "${HOME}/pdf" && \
+    cp -rf "${HOME}/installer/install-support/app/"* "${INSTALL_PATH}" && \
+    rm -rf "${HOME}/installer/" && \
+    chmod +x "${HOME}/.local/bin/"*.sh && \
     chown -R "${PUID}"."${PGID}" "${HOME}"
 
 # Clean up apt cache

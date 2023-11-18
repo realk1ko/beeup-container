@@ -41,30 +41,24 @@ If you wish to remove the components installed by the script, do the following:
 
 The following tags are published to the GitHub Container Registry:
 
-- The `:latest` tag refers to the latest stable image tested with Docker
-- The `:latest-arm64-emulation` refers to to the latest stable `amd64` image that works when run in an emulation
-  environment on `arm64`
-- Additionally each published image is tagged with the installed Bee-Up version (e. g. `1.6`). Refer to the packages
+- The `:latest` tag refers to the latest stable container image
+- Additionally each published image is tagged with the installed Bee-Up version (e. g. `1.7`). Refer to the packages
   overview [here](https://github.com/users/realk1ko/packages/container/package/beeup) for more info.
 
 The container's HTTP port defaults to `8080`.
 
 Within the running container the following directories might be of interest for a manual setup:
 
-| Directory        | Description                                                       |
-|------------------|-------------------------------------------------------------------|
-| `/var/opt/mssql` | Contains the database files created by MSSQL                      |
-| `/home/app/PDF`  | Is the directory the PDF printing function will save the files to |
+| Directory        | Description                                          |
+|------------------|------------------------------------------------------|
+| `/home/app/data` | Contains the SQLite database files created by Bee-Up |
+| `/home/app/pdf`  | Target directory for the PDF printing function       |
 
 The following environment variables can be used for configuration:
 
-| Variable               | Description                                                                                                                                                                                                                                                |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `DATABASE_HOST`        | The database host that Bee-Up will connect to; If this value is `127.0.0.1` the integrated MSSQL instance will be started in the container, otherwise MSSQL will not start                                                                                 |
-| `DATABASE_PASSWORD`    | The database super admin (SA) password to use                                                                                                                                                                                                              |
-| `DATABASE_NAME`        | The name of the database object Bee-Up will use                                                                                                                                                                                                            |
-| `DATABASE_ACCEPT_EULA` | When you're using the integrated MSSQL database (`DATABASE_HOST=127.0.0.1`), you need to accept the end user license agreement between Microsoft and you (`DATABASE_ACCEPT_EULA=y`); Refer to https://go.microsoft.com/fwlink/?LinkId=746388 for more info |
-| `ADOXX_LICENSE_KEY`    | The license key to activate/install ADOxx                                                                                                                                                                                                                  |
+| Variable            | Description                       |
+|---------------------|-----------------------------------|
+| `ADOXX_LICENSE_KEY` | The license key to activate ADOxx |
 
 The following run command can be used as an guide for a manual setup:
 
@@ -73,12 +67,8 @@ sudo docker run --name beeup \
     --restart unless-stopped \
     -d \
     -p 8080:8080 \
-    -v beeup-db:/var/opt/mssql \
-    -v "$(pwd)/pdfs":/home/app/PDF \
-    -e DATABASE_HOST=127.0.0.1 \
-    -e DATABASE_PASSWORD='supersecret' \
-    -e DATABASE_NAME=beeup_64 \
-    -e DATABASE_ACCEPT_EULA=y \
+    -v beeup:/home/app/data \
+    -v "$(pwd)/pdf":/home/app/pdf \
     -e ADOXX_LICENSE_KEY=494fe189-0931-4648-bde4-156f452dea2a \
     ghcr.io/realk1ko/beeup:latest
 ```
@@ -87,6 +77,12 @@ sudo docker run --name beeup \
 
 - Turn on remote resizing for the best user experience. Click on the gear icon (options) on the left hand side and
   change the scaling mode.
-- The bundled standard attribute profiles (`*.adl`) can be found in the home directory of the user inside the container.
-- The installation script sets up a directory within the repository folder (`./pdfs`) into which the PDF printed models
+- The installation script sets up a directory within the repository folder (`./pdf`) into which the PDF printed models
   are exported.
+- The bundled standard attribute profiles (`*.adl`) should be imported automatically. If for some reason this import
+  fails, you can find it in `/home/app/.wine/drive_c/Program Files/Bee-Up/adostd.adl` inside the container.
+- The installation script sets up a volume for the SQLite database named `beeup`. This volume is removed if the
+  uninstall script is run. **Make sure to properly backup in case of version upgrades!**
+- Upon first startup of a (persistent) container, the non-automated parts of the installation process will run. This
+  includes the PDF printer setup, Wine initialization, Bee-Up license setup and (optionally) the Bee-Up database
+  initialization.
