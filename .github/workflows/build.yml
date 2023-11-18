@@ -52,12 +52,15 @@ jobs:
         run: |
           set -euo pipefail
           
-          curl -o ./container/home/app/beeup.zip ${{ inputs.beeup_download_url }}
-          unzip ./container/home/app/beeup.zip -d ./container/home/app/installer -j
-          unzip ./container/home/app/installer/install-support/*.zip -d ./container/home/app/installer/install-support/app -j 
+          curl -o ./container/home/app/installer.zip ${{ inputs.beeup_download_url }}
           
-          rm -f ./container/home/app/beeup.zip
+          unzip ./container/home/app/installer.zip -d ./container/home/app/installer
+          rm -f ./container/home/app/installer.zip
+          mv ./container/home/app/installer/*/* ./container/home/app/installer
+          
+          unzip ./container/home/app/installer/install-support/*.zip -d ./container/home/app/installer/install-support/app 
           rm -f ./container/home/app/installer/install-support/*.zip
+          mv ./container/home/app/installer/install-support/app/*/* ./container/home/app/installer/install-support/app
 
       - name: Prepare tags
         id: prepare-tags
