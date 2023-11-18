@@ -60,7 +60,6 @@ jobs:
           
           unzip ./container/home/app/installer/install-support/*.zip -d ./container/home/app/installer/install-support/app 
           rm -f ./container/home/app/installer/install-support/*.zip
-          mv ./container/home/app/installer/install-support/app/*/* ./container/home/app/installer/install-support/app
 
       - name: Prepare tags
         id: prepare-tags
