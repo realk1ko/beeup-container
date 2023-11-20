@@ -15,7 +15,7 @@ docker run --name beeup `
 Write-Host "============================================================"
 Write-Host "You have to finish the installation manually:"
 Write-Host "1) Open http://localhost:8080/vnc.html in your favorite"
-Write-Host "   browser and click 'Connect'.
+Write-Host "   browser and click 'Connect'."
 Write-Host "2) Then click through the installation process and wait."
 Write-Host "3) Wait some more."
 Write-Host
