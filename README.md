@@ -30,12 +30,14 @@ To get started with an automated installation, do the following:
     - **Linux/MacOS:** Open a terminal inside the repository folder and run `bash install.sh`
     - **Windows:** Open a PowerShell inside the repository folder and run `install.ps1`
 3) Follow the instructions printed by the script
-4) Afterwards refer to [Notes on Usage](#notes-on-usage) for some tips
+4) Afterwards refer to [Notes on Usage](#notes) for some tips
 
 If you wish to remove the components installed by the script, do the following:
 
 - **Linux/MacOS:** Open a terminal inside the repository folder and run `bash uninstall.sh`
 - **Windows:** Open a PowerShell inside the repository folder and run `uninstall.ps1`
+
+For running `.ps1` scripts check [the PowerShell documentation](https://learn.microsoft.com/en-us/previous-versions//bb613481(v=vs.85)?redirectedfrom=MSDN#how-to-allow-scripts-to-run).
 
 ### Manual Setup
 
