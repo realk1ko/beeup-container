@@ -71,7 +71,7 @@ jobs:
           
           IFS="," read -ra partial_tags <<< "${{ inputs.tags }}"
           
-          for partial_tag in ${partial_tags}; do
+          for partial_tag in "${partial_tags[@]}"; do
             tags+="ghcr.io/${{ secrets.username }}/${{ inputs.image_name }}:${partial_tag},"
           done
           
