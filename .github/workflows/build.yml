@@ -75,7 +75,7 @@ jobs:
             tags+="ghcr.io/${{ secrets.username }}/${{ inputs.image_name }}:${partial_tag},"
           done
           
-          echo "tags=${tags}" >> $GITHUB_OUTPUT
+          echo "tags=${tags%,}" >> $GITHUB_OUTPUT
 
       - name: Build and push
         id: build-and-push
