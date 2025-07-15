@@ -4,8 +4,8 @@
 
 [![License](https://img.shields.io/github/license/realk1ko/beeup-container.svg)](https://github.com/realk1ko/beeup-container/blob/master/LICENSE)
 
-Run Bee-Up in your browser via a pre-built container and spend more time creating diagrams for your modelling class at
-university, instead of installing and uninstalling software.
+Run [Bee-Up](https://omilab.org/activities/bee-up/) in your browser via a pre-built container and spend more time
+creating diagrams for your modelling class at university, instead of installing and uninstalling software.
 
 ## Quick Start
 
