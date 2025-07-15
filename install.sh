@@ -14,8 +14,8 @@ sudo docker run --name beeup \
   --restart unless-stopped \
   -d \
   -p 8080:8080 \
-  -v beeup:/home/app/data \
-  -v "$(pwd)/pdf":/home/app/pdf \
+  -v beeup:/home/beeup/data \
+  -v "$(pwd)/pdf":/home/beeup/pdf \
   ghcr.io/realk1ko/beeup:latest
 
 cat << EOF

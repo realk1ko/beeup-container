@@ -1,99 +1,62 @@
-ARG BASE_IMAGE
+FROM docker.io/library/ubuntu:latest
 
-FROM ${BASE_IMAGE}
+LABEL org.opencontainers.image.title Bee-Up \
+      org.opencontainers.image.description Bee-Up is an ADOxx-based hybrid modelling tool \
+      org.opencontainers.image.licenses MIT \
+      org.opencontainers.image.url https://github.com/realk1ko/beeup-container \
+      maintainer realk1ko <32820057+realk1ko@users.noreply.github.com>
 
-LABEL org.opencontainers.image.title Bee-Up
-LABEL org.opencontainers.image.description Bee-Up is an ADOxx-based hybrid modelling tool
-LABEL org.opencontainers.image.licenses MIT
-LABEL org.opencontainers.image.url https://github.com/realk1ko/beeup-container
-LABEL maintainer realk1ko <32820057+realk1ko@users.noreply.github.com>
+ENV BEEUP_HOME=/home/beeup \
+    # VNC
+    HTTP_PORT=8080 \
+    DISPLAY=:0 \
+    LC_ALL=en_US \
+    # Wine
+    WINEARCH=win64 \
+    WINEPREFIX="/home/beeup/.wine" \
+    WINEDEBUG=-all \
+    # Bee-Up specifics
+    BEEUP_INSTALL_PATH="/home/beeup/.wine/drive_c/Program Files/Bee-Up" \
+    ADO_SQLITE_DBFOLDER="/home/beeup/data" \
+    ADO_LICENSE_KEY="zAd-nvkz-YnrvwreuEKAL2pI"
 
-# Basics
-ENV HOME=/home/app \
-    PUID=1000 \
-    PGID=1000
+RUN set -eux; \
+    # rename default user \
+    usermod -l beeup ubuntu; \
+    groupmod -n beeup ubuntu; \
+    usermod -d ${BEEUP_HOME} -m beeup; \
+    usermod -c "Bee-Up" beeup; \
+    # install requirements for building and running the container and for printing PDFs
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        bash supervisor tigervnc-standalone-server novnc openbox \
+        wget gnupg lsb-release locales \
+        cups cups-pdf; \
+    locale-gen en_US; \
+    # install Wine
+    wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add -; \
+    echo "deb https://dl.winehq.org/wine-builds/ubuntu/ $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list; \
+    dpkg --add-architecture i386; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        winehq-stable wine-stable wine-stable-amd64 wine-stable-i386; \
+    # remove temporary files from APT
+    rm -rf /var/lib/apt/lists/*
 
-RUN set -eu && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        bash \
-        supervisor
+ADD ./container /
 
-RUN set -eu && \
-    groupadd --gid "${PGID}" app && \
-    useradd --create-home --home-dir "${HOME}" --shell /bin/bash --uid "${PUID}" --gid "${PGID}" app
-
-WORKDIR ${HOME}
+RUN set -eux; \
+    # install Bee-Up
+    mkdir -p "${BEEUP_INSTALL_PATH}"; \
+    mkdir -p "${ADO_SQLITE_DBFOLDER}"; \
+    mkdir -p "${BEEUP_HOME}/pdf"; \
+    mkdir -p "${BEEUP_HOME}/adl"; \
+    cp -rf "${BEEUP_HOME}/installer/install-support/app/"* "${BEEUP_INSTALL_PATH}"; \
+    cp -rf "${BEEUP_HOME}/installer/"*.adl "${BEEUP_HOME}/adl"; \
+    rm -rf "${BEEUP_HOME}/installer"; \
+    chmod ug+x "${BEEUP_HOME}/.local/bin/"*.sh; \
+    chown -R "1000:1000" "${BEEUP_HOME}"
 
 CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
 
-# VNC
-ENV HTTP_PORT=8080 \
-    APP_NAME=Bee-Up \
-    DISPLAY=:0 \
-    VNC_PASSWORD=beeup
-
-RUN set -eu && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        tigervnc-standalone-server \
-        novnc \
-        openbox
-
 EXPOSE ${HTTP_PORT}
-
-# Build dependencies
-ENV LC_ALL=en_US
-
-RUN set -eu && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        wget \
-        gnupg \
-        lsb-release \
-        locales && \
-    locale-gen en_US
-
-# CUPS
-RUN set -eu && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        cups \
-        printer-driver-cups-pdf
-
-# Wine
-ARG WINE_VERSION
-
-ENV WINEARCH=win64 \
-    WINEPREFIX="${HOME}/.wine" \
-    WINEDEBUG=-all
-
-RUN set -eu && \
-    wget -nv -O- https://dl.winehq.org/wine-builds/winehq.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
-    echo "deb https://dl.winehq.org/wine-builds/ubuntu/ $(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2) main" >> /etc/apt/sources.list && \
-    dpkg --add-architecture i386 && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        winehq-stable="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
-        wine-stable="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
-        wine-stable-amd64="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1" \
-        wine-stable-i386="${WINE_VERSION}~$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)-1"
-
-# Bee-Up
-ADD ./container /
-
-ENV INSTALL_PATH="${WINEPREFIX}/drive_c/Program Files/Bee-Up" \
-    ADO_SQLITE_DBFOLDER="${HOME}/data" \
-    ADO_LICENSE_KEY="zAd-nvkz-YnrvwreuEKAL2pI"
-
-RUN set -eu && \
-    mkdir -p "${INSTALL_PATH}" && \
-    mkdir -p "${ADO_SQLITE_DBFOLDER}" && \
-    mkdir -p "${HOME}/pdf" && \
-    mkdir -p "${HOME}/adl" && \
-    cp -rf "${HOME}/installer/install-support/app/"* "${INSTALL_PATH}" && \
-    cp -rf "${HOME}/installer/"*.adl "${HOME}/adl" && \
-    rm -rf "${HOME}/installer" && \
-    chmod +x "${HOME}/.local/bin/"*.sh && \
-    chown -R "${PUID}"."${PGID}" "${HOME}"
-
-# Clean up apt cache
-RUN set -eu && \
-    rm -rf /var/lib/apt/lists/*

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-Xtigervnc -desktop "${APP_NAME}" \
+Xtigervnc -desktop Bee-Up \
   -localhost \
   -rfbport 5900 \
   -SecurityTypes None \

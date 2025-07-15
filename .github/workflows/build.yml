@@ -3,29 +3,16 @@ name: Build
 on:
   workflow_call:
     inputs:
-      base_image:
-        type: string
-        required: true
-      image_name:
-        type: string
-        required: true
       tags:
+        description: Tags
         type: string
         required: true
-      platforms:
-        type: string
-        required: true
-      wine_version:
-        type: string
-        required: true
+        default: "latest,1.7"
       beeup_download_url:
+        description: Bee-Up Download URL
         type: string
         required: true
-    secrets:
-      username:
-        required: true
-      token:
-        required: true
+        default: "https://bee-up.omilab.org/files/tool-installer/Bee-Up_1.7_linux-2023-11-07.zip"
 
 jobs:
   build:
@@ -44,35 +31,35 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ secrets.username }}
-          password: ${{ secrets.token }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Bee-Up
         shell: bash
         run: |
-          set -euo pipefail
+          set -euxo pipefail
           
-          curl -o ./container/home/app/installer.zip ${{ inputs.beeup_download_url }}
+          curl -o ./container/home/beeup/installer.zip ${{ inputs.beeup_download_url }}
           
-          unzip ./container/home/app/installer.zip -d ./container/home/app/installer
-          rm -f ./container/home/app/installer.zip
-          mv ./container/home/app/installer/*/* ./container/home/app/installer
+          unzip ./container/home/beeup/installer.zip -d ./container/home/beeup/installer
+          rm -f ./container/home/beeup/installer.zip
+          mv ./container/home/beeup/installer/*/* ./container/home/beeup/installer
           
-          unzip ./container/home/app/installer/install-support/*.zip -d ./container/home/app/installer/install-support/app 
-          rm -f ./container/home/app/installer/install-support/*.zip
+          unzip ./container/home/beeup/installer/install-support/*.zip -d ./container/home/beeup/installer/install-support/app
+          rm -f ./container/home/beeup/installer/install-support/*.zip
 
       - name: Prepare tags
         id: prepare-tags
         shell: bash
         run: |
-          set -euo pipefail
+          set -euxo pipefail
           
           tags=""
           
           IFS="," read -ra partial_tags <<< "${{ inputs.tags }}"
           
           for partial_tag in "${partial_tags[@]}"; do
-            tags+="ghcr.io/${{ secrets.username }}/${{ inputs.image_name }}:${partial_tag},"
+            tags+="ghcr.io/${{ github.actor }}/beeup:${partial_tag},"
           done
           
           echo "tags=${tags%,}" >> $GITHUB_OUTPUT
@@ -83,8 +70,5 @@ jobs:
         with:
           push: true
           context: .
-          platforms: ${{ inputs.platforms }}
-          build-args: |
-            BASE_IMAGE=${{ inputs.base_image }}
-            WINE_VERSION=${{ inputs.wine_version }}
+          platforms: linux/amd64
           tags: ${{ steps.prepare-tags.outputs.tags }}
