@@ -7,9 +7,7 @@
 Run Bee-Up in your browser via a pre-built container and spend more time creating diagrams for your modelling class at
 university, instead of installing and uninstalling software.
 
-## Usage
-
-### Quick Start
+## Quick Start
 
 To do a quick installation, do the following:
 
@@ -32,7 +30,7 @@ Refer
 to [the PowerShell documentation](https://learn.microsoft.com/en-us/previous-versions//bb613481(v=vs.85)?redirectedfrom=MSDN#how-to-allow-scripts-to-run)
 on how to run unsigned PowerShell scripts in Windows.
 
-### Manual Setup
+## Manual Setup
 
 Images published to the GitHub Container Registry use the following tags:
 
@@ -62,7 +60,7 @@ sudo docker run --name beeup \
     ghcr.io/realk1ko/beeup:latest
 ```
 
-### Additional Notes
+## Additional Notes
 
 - Enable remote resizing for the best experience: Click the gear icon (Options) on the left hand side and adjust the
   scaling mode.
