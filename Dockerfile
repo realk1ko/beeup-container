@@ -1,10 +1,10 @@
 FROM docker.io/library/ubuntu:latest
 
-LABEL org.opencontainers.image.title Bee-Up \
-      org.opencontainers.image.description Run Bee-Up in your browser via a pre-built container \
-      org.opencontainers.image.licenses MIT \
-      org.opencontainers.image.url https://github.com/realk1ko/beeup-container \
-      maintainer realk1ko <32820057+realk1ko@users.noreply.github.com>
+LABEL org.opencontainers.image.title=Bee-Up \
+      org.opencontainers.image.description=Run Bee-Up in your browser via a pre-built container \
+      org.opencontainers.image.licenses=MIT \
+      org.opencontainers.image.url=https://github.com/realk1ko/beeup-container \
+      maintainer=realk1ko <32820057+realk1ko@users.noreply.github.com>
 
 ENV BEEUP_HOME=/home/beeup \
     # VNC
